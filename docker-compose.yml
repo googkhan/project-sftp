@@ -1,9 +1,8 @@
-version: "1.0"
 services:
   sftp:
     image: atmoz/sftp
     volumes:
-        - /media/upload:/home/user/upload
+        - ./serve-folder:/home
     ports:
         - "8022:22"
     command: user:password:1001:100
@@ -16,4 +15,5 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "8080:80"
+    restart: always
 
