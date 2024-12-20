@@ -1,6 +1,8 @@
 services:
   sftp:
-    image: atmoz/sftp
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
         - ./serve-folder:/home
     ports:
