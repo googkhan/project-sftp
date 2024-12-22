@@ -5,9 +5,10 @@ services:
       dockerfile: Dockerfile
     volumes:
         - ./serve-folder:/home
+        - ./conf/users.conf:/etc/sftp/users.conf:ro
     ports:
         - "8022:22"
-    command: user:password:1001:100
+    restart: always
 
   nginx:
     image: nginx
@@ -17,5 +18,5 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "8080:80"
-    restart: always
-
+      - "8443:443"
+    restart: unless-stopped
