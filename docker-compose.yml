@@ -4,19 +4,24 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-        - ./serve-folder:/home
-        - ./conf/users.conf:/etc/sftp/users.conf:ro
+      - ./storage/user1/upload:/home/user1/upload:rw
+#      - ./conf/users.conf:/etc/sftp/users.conf:ro
+#      - ./conf/bindmount.sh:/etc/sftp.d/bindmount.sh
+#      - ./conf/make_uploaddir.sh:/etc/sftp.d/make_uploaddir.sh
+#    priviledged: true
+#    cap_add:
+#      - SYS_ADMIN
     ports:
         - "8022:22"
-    restart: always
+    restart: unless-stopped
+    command: user1:password1:1001
 
   nginx:
     image: nginx
     container_name: nginx_server
     volumes:
-      - ./serve-folder:/usr/share/nginx/html:ro
+      - ./storage:/usr/share/nginx/html
       - ./conf/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "8080:80"
-      - "8443:443"
     restart: unless-stopped
